@@ -311,4 +311,25 @@
 
                 const data = await response.json();
                 
+                if (data.candidates && data.candidates.length > 0) {
+                    const aiResponse = data.candidates[0].content.parts[0].text;
+                    output.innerText = aiResponse;
+                    output.classList.remove("text-red-400");
+                } else {
+                    throw new Error("AI မှ အဖြေပြန်မပေးပါ။");
+                }
+
+            } catch (error) {
+                document.getElementById('output').innerText = "Error: " + error.message + "\n\nကျေးဇူးပြု၍ API Key အမှန်ဖြစ်ကြောင်း သေချာစစ်ဆေးပါ။";
+                document.getElementById('output').classList.add("text-red-400");
+            } finally {
+                document.getElementById('loading').classList.add('hidden');
+                const btn = document.getElementById('generateBtn');
+                btn.disabled = false;
+                btn.innerText = 'ခေါင်းစဉ် ၅ မျိုး ထုတ်မယ် ✦';
+            }
+        }
+    </script>
+</body>
+</html>
   
