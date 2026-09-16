@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Scene Studio</title>
+    <!-- Tailwind CSS for Styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&display=swap');
+        body { font-family: 'Padauk', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto space-y-6">
+        <!-- Header & API Key Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-yellow-400">
+            <h1 class="text-2xl font-bold mb-2">သင့်စိတ်ကူးကို စတင်ပုံဖော်ပါ</h1>
+            <p class="text-sm text-gray-500 mb-4">Google AI Studio မှ ရယူထားသော သင်၏ ကိုယ်ပိုင် Gemini API Key ကို အောက်တွင် ထည့်ပါ။</p>
+            <input type="password" id="apiKey" placeholder="AIzaSy***..." class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" required>
+        </div>
+
+        <!-- Story Input Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-bold mb-4">၀၁။ ဇာတ်လမ်းအကျဉ်းရေးရန်</h2>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 font-semibold mb-2">ဇာတ်လမ်းအမျိုးအစား</label>
+                <select id="genre" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                    <option value="ဟာသ">☺ ဟာသ (Comedy)</option>
+                    <option value="အချစ်">♡ အချစ် (Romance)</option>
+                    <option value="ထိတ်လန့်ဖွယ်">☾ ထိတ်လန့်ဖွယ် (Horror)</option>
+                    <option value="သိပ္ပံစိတ်ကူးယဉ်">◎ သိပ္ပံစိတ်ကူးယဉ် (Sci-Fi)</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-semibold mb-2">သင့်ဇာတ်လမ်းအကျဉ်း</label>
+                <textarea id="storyBrief" rows="4" placeholder="ဘယ်သူ့အကြောင်းလဲ၊ ဘာအခက်အခဲ ကြုံရမလဲ၊ ဘယ်လို အဆုံးသတ်မလဲ..." class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"></textarea>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-gray-700 font-semibold mb-2">ခေါင်းစဉ်ကို ဘယ်လိုပုံစံ ထုတ်မလဲ</label>
+                <div class="flex gap-4">
+                    <label class="flex-1 border p-4 rounded-lg cursor-pointer hover:bg-yellow-50 bg-yellow-100 border-yellow-400">
+                        <input type="radio" name="titleStyle" value="ပရိသတ်ကို ဆွဲဆောင်မယ်" checked class="mr-2"> ဆွဲဆောင်မှုရှိသော
+                    </label>
+                    <label class="flex-1 border p-4 rounded-lg cursor-pointer hover:bg-yellow-50">
+                        <input type="radio" name="titleStyle" value="Clickbait" class="mr-2"> Clickbait ပုံစံ
+                    </label>
+                </div>
+            </div>
+
+            <button onclick="generateStory()" id="generateBtn" class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-4 rounded-lg transition duration-200">
+                ခေါင်းစဉ် ၅ မျိုး ထုတ်မယ် ✦
+            </button>
+        </div>
+
+        <!-- Result Section -->
+        <div id="resultSection" class="bg-gray-900 text-white p-6 rounded-lg shadow-md hidden">
+            <h2 class="text-xl font-bold text-yellow-400 mb-4">PRODUCTION BRIEF / ရလဒ်</h2>
+            <div id="loading" class="hidden text-gray-400 animate-pulse">AI စဉ်းစားနေပါသည်... ခဏစောင့်ပါ။</div>
+            <div id="output" class="whitespace-pre-wrap leading-relaxed text-gray-200"></div>
+        </div>
+    </div>
+
+    <!-- JavaScript to handle Gemini API -->
+    <script>
+        async function generateStory() {
+            const apiKey = document.getElementById('apiKey').value;
+            const genre = document.getElementById('genre').value;
+            const brief = document.getElementById('storyBrief').value;
+            const titleStyle = document.querySelector('input[name="titleStyle"]:checked').value;
+            
+            if (!apiKey || !brief) {
+                alert("ကျေးဇူးပြု၍ API Key နှင့် ဇာတ်လမ်းအကျဉ်းကို ထည့်ပါ။");
+                return;
+            }
+
+            // UI Changes
+            document.getElementById('resultSection').classList.remove('hidden');
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('output').innerText = "";
+            document.getElementById('generateBtn').disabled = true;
+            document.getElementById('generateBtn').innerText = "ထုတ်လုပ်နေသည်...";
+
+            // Constructing Prompt
+            const prompt = `အောက်ပါ အချက်အလက်များကို အခြေခံပြီး ဇာတ်လမ်းခေါင်းစဉ် ၅ မျိုးကို မြန်မာဘာသာဖြင့် ဖန်တီးပေးပါ။ 
+            အမျိုးအစား: ${genre}
+            ခေါင်းစဉ်ပုံစံ: ${titleStyle}
+            ဇာတ်လမ်းအကျဉ်း: ${brief}
+            
+            ခေါင်းစဉ် ၅ ခုကို (၁) (၂) စသဖြင့် အစဉ်လိုက်ရေးပေးပြီး၊ ဇာတ်လမ်းကို ပိုကောင်းအောင် ဘယ်လို အခန်းတွေ ထည့်သင့်လဲဆိုတာကို အကြံပြုချက် အတိုချုပ် ထည့်ပေးပါ။`;
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }]
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error("API Key မှားယွင်းနေသည် (သို့) Limit ပြည့်သွားပါသည်။");
+                }
+
+                const data = await response.json();
+                const aiResponse = data.candidates[0].content.parts[0].text;
+                
+                document.getElementById('output').innerText = aiResponse;
+            } catch (error) {
+                document.getElementById('output').innerText = "Error: " + error.message;
+                document.getElementById('output').classList.add("text-red-400");
+            } finally {
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('generateBtn').disabled = false;
+                document.getElementById('generateBtn').innerText = "ခေါင်းစဉ် ၅ မျိုး ထုတ်မယ် ✦";
+            }
+        }
+    </script>
+</body>
+</html>
+
