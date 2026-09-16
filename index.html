@@ -6,6 +6,7 @@
     <title>AVT Scene Studio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { font-family: 'Padauk', sans-serif; background-color: #f4f5f8; }
         .glass-dark { background: #1a1c23; border: 1px solid #2d303b; }
@@ -14,43 +15,221 @@
 <body class="text-gray-800">
 
     <nav class="bg-[#1a1c23] text-white px-4 py-3 flex justify-between items-center text-sm">
-        <div class="flex items-center space-x-2">
-            <div class="bg-yellow-400 text-black font-bold px-2 py-1 rounded text-xs">AVT</div>
-            <span class="font-bold text-lg">Scene Studio</span>
+        <div class="flex items-center space-x-6">
+            <div class="flex items-center space-x-2">
+                <div class="bg-yellow-400 text-black font-bold px-2 py-1 rounded text-xs">AVT</div>
+                <span class="font-bold text-lg">Scene Studio</span>
+            </div>
+            <span class="text-gray-400 hidden md:inline">AI VIDEOS TUTORIALS</span>
         </div>
-        <button class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded border border-gray-600 transition">AI ချိတ်ဆက်ရန်</button>
+        <div class="flex items-center space-x-4">
+            <span class="text-gray-400 hidden md:inline uppercase text-xs tracking-wider">Your Creative Workspace</span>
+            <button type="button" class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded border border-gray-600 transition">
+                AI ချိတ်ဆက်ရန်
+            </button>
+            <button type="button" class="text-gray-300 hover:text-white hidden md:inline"><i class="fa-regular fa-circle-question mr-1"></i> သုံးနည်း</button>
+        </div>
     </nav>
 
     <div class="max-w-7xl mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-8">သင့်စိတ်ကူးကို စတင်ပုံဖော်ပါ</h1>
+        
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+            <div>
+                <p class="text-xs font-bold text-gray-400 tracking-widest uppercase mb-1">Story to Scenes</p>
+                <h1 class="text-3xl font-bold text-gray-900">သင့်စိတ်ကူးကို စတင်ပုံဖော်ပါ</h1>
+            </div>
+        </div>
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
             <label class="block text-sm font-bold text-gray-700 mb-2">Google AI Studio မှ ရယူထားသော API Key ကို ထည့်ပါ <span class="text-red-500">*</span></label>
-            <input type="password" id="apiKey" placeholder="AIzaSy..." class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-yellow-400 outline-none transition">
+            <input type="password" id="apiKey" placeholder="AIzaSy..." class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 outline-none transition">
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
             <div class="lg:col-span-8 space-y-6">
+                
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-2 flex justify-between text-sm overflow-x-auto">
+                    <div class="flex-1 text-center py-3 px-4 bg-yellow-50 rounded-lg text-yellow-800 font-bold border-b-2 border-yellow-400 min-w-[120px]">
+                        <span class="bg-yellow-200 px-2 py-0.5 rounded-full mr-2">01</span> ဇာတ်လမ်း
+                    </div>
+                    <div class="flex-1 text-center py-3 px-4 text-gray-400 font-medium min-w-[120px]">
+                        <span class="bg-gray-100 px-2 py-0.5 rounded-full mr-2">02</span> ရုပ်ပုံစတိုင်
+                    </div>
+                    <div class="flex-1 text-center py-3 px-4 text-gray-400 font-medium min-w-[120px]">
+                        <span class="bg-gray-100 px-2 py-0.5 rounded-full mr-2">03</span> အသံနဲ့ အချိုး
+                    </div>
+                </div>
+
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8">
-                    <h2 class="text-2xl font-bold mb-6">ဇာတ်လမ်းကနေ စမယ်</h2>
+                    
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 tracking-widest uppercase mb-1">The Story</p>
+                            <h2 class="text-2xl font-bold">ဇာတ်လမ်းကနေ စမယ်</h2>
+                        </div>
+                        <div class="text-gray-200 text-6xl font-bold opacity-30">01</div>
+                    </div>
                     
                     <div class="mb-8">
-                        <label class="block font-bold text-gray-800 mb-2">သင့်ဇာတ်လမ်းအကျဉ်း <span class="text-red-500">*</span></label>
-                        <textarea id="storyBrief" rows="5" class="w-full border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-yellow-400 outline-none"></textarea>
+                        <label class="block font-bold text-gray-800 mb-4">ဇာတ်လမ်းအမျိုးအစား</label>
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="genre" value="ဟာသ" class="hidden peer" checked>
+                                <div class="border rounded-lg p-4 flex flex-col items-center justify-center gap-2 hover:bg-gray-50 peer-checked:bg-yellow-50 peer-checked:border-yellow-400 transition">
+                                    <span class="text-2xl">😊</span><span class="text-sm font-medium">ဟာသ</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="genre" value="ဝမ်းနည်းစရာ" class="hidden peer">
+                                <div class="border rounded-lg p-4 flex flex-col items-center justify-center gap-2 hover:bg-gray-50 peer-checked:bg-yellow-50 peer-checked:border-yellow-400 transition">
+                                    <span class="text-2xl">☔</span><span class="text-sm font-medium">ဝမ်းနည်းစရာ</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="genre" value="အချစ်" class="hidden peer">
+                                <div class="border rounded-lg p-4 flex flex-col items-center justify-center gap-2 hover:bg-gray-50 peer-checked:bg-yellow-50 peer-checked:border-yellow-400 transition">
+                                    <span class="text-2xl">🤍</span><span class="text-sm font-medium">အချစ်</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="genre" value="မိသားစု" class="hidden peer">
+                                <div class="border rounded-lg p-4 flex flex-col items-center justify-center gap-2 hover:bg-gray-50 peer-checked:bg-yellow-50 peer-checked:border-yellow-400 transition">
+                                    <span class="text-2xl">🏠</span><span class="text-sm font-medium">မိသားစု</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="genre" value="ပညာပေး" class="hidden peer">
+                                <div class="border rounded-lg p-4 flex flex-col items-center justify-center gap-2 hover:bg-gray-50 peer-checked:bg-yellow-50 peer-checked:border-yellow-400 transition">
+                                    <span class="text-2xl">✏️</span><span class="text-sm font-medium">ပညာပေး</span>
+                                </div>
+                            </label>
+                        </div>
                     </div>
 
-                    <button onclick="generateStory()" id="generateBtn" class="w-full py-4 px-6 bg-[#facc15] hover:bg-[#eab308] rounded-lg font-bold text-gray-900 transition shadow-sm">
-                        ခေါင်းစဉ် ၅ မျိုး ထုတ်မယ် ✦
-                    </button>
+                    <div class="mb-8">
+                        <label class="block font-bold text-gray-800 mb-4">ဇာတ်လမ်းအကျဉ်းကို ဘယ်သူ ရေးမလဲ</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="whoWrites" value="ကိုယ်တိုင်" class="hidden peer" checked>
+                                <div class="border rounded-lg p-5 hover:bg-gray-50 peer-checked:bg-yellow-50 peer-checked:border-yellow-400 transition h-full relative">
+                                    <div class="flex items-center gap-3 mb-1">
+                                        <div class="w-4 h-4 rounded-full border-2 border-gray-300 peer-checked:border-yellow-500 flex items-center justify-center">
+                                            <div class="w-2 h-2 rounded-full bg-yellow-500 opacity-0 peer-checked:opacity-100"></div>
+                                        </div>
+                                        <span class="font-bold">ကိုယ်တိုင်ရေးမယ်</span>
+                                    </div>
+                                    <p class="text-sm text-gray-500 ml-7">ကိုယ်ပိုင်စိတ်ကူးကို စာနဲ့ ပုံဖော်မယ်</p>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="whoWrites" value="AI" class="hidden peer">
+                                <div class="border rounded-lg p-5 hover:bg-gray-50 peer-checked:bg-yellow-50 peer-checked:border-yellow-400 transition h-full relative">
+                                    <div class="flex items-center gap-3 mb-1">
+                                        <div class="w-4 h-4 rounded-full border-2 border-gray-300 peer-checked:border-yellow-500 flex items-center justify-center">
+                                            <div class="w-2 h-2 rounded-full bg-yellow-500 opacity-0 peer-checked:opacity-100"></div>
+                                        </div>
+                                        <span class="font-bold">AI ကို ရေးခိုင်းမယ်</span>
+                                    </div>
+                                    <p class="text-sm text-gray-500 ml-7">ရွေးထားတဲ့ အမျိုးအစားအတိုင်း ရေးပေးမယ်</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <label class="block font-bold text-gray-800 mb-2">သင့်ဇာတ်လမ်းအကျဉ်း <span class="text-red-500">*</span></label>
+                        <textarea id="storyBrief" rows="5" placeholder="ဘယ်သူ့အကြောင်းလဲ၊ ဘာအခက်အခဲ ကြုံရမလဲ၊ ဘယ်လို အဆုံးသတ်မလဲ... သင့်ဇာတ်လမ်းအကျဉ်းကို အရင်ရေးပါ။" class="w-full border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-yellow-400 outline-none"></textarea>
+                    </div>
+
+                    <div class="mb-8">
+                        <label class="block font-bold text-gray-800 mb-4">ခေါင်းစဉ်ကို ဘယ်လိုပုံစံ ထုတ်မလဲ</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="titleStyle" value="ဆွဲဆောင်မှုရှိသော" class="hidden peer" checked>
+                                <div class="border rounded-lg p-5 hover:bg-gray-50 peer-checked:bg-yellow-50 peer-checked:border-yellow-400 transition">
+                                    <div class="flex items-center gap-3 mb-1">
+                                        <div class="w-4 h-4 rounded-full border-2 border-gray-300 peer-checked:border-yellow-500 flex items-center justify-center">
+                                            <div class="w-2 h-2 rounded-full bg-yellow-500 opacity-0 peer-checked:opacity-100"></div>
+                                        </div>
+                                        <span class="font-bold">ပရိသတ်ကို ဆွဲဆောင်မယ်</span>
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="titleStyle" value="Clickbait" class="hidden peer">
+                                <div class="border rounded-lg p-5 hover:bg-gray-50 peer-checked:bg-yellow-50 peer-checked:border-yellow-400 transition">
+                                    <div class="flex items-center gap-3 mb-1">
+                                        <div class="w-4 h-4 rounded-full border-2 border-gray-300 peer-checked:border-yellow-500 flex items-center justify-center">
+                                            <div class="w-2 h-2 rounded-full bg-yellow-500 opacity-0 peer-checked:opacity-100"></div>
+                                        </div>
+                                        <span class="font-bold">Clickbait ခေါင်းစဉ်</span>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <label class="block font-bold text-gray-800 mb-4">ဇာတ်လမ်းကို ဘယ်လို တင်ပြမလဲ</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="presentation" value="အပြည့်အစုံ" class="hidden peer" checked>
+                                <div class="border rounded-lg p-5 hover:bg-gray-50 peer-checked:bg-yellow-50 peer-checked:border-yellow-400 transition">
+                                    <div class="flex items-center gap-3 mb-1">
+                                        <div class="w-4 h-4 rounded-full border-2 border-gray-300 peer-checked:border-yellow-500 flex items-center justify-center">
+                                            <div class="w-2 h-2 rounded-full bg-yellow-500 opacity-0 peer-checked:opacity-100"></div>
+                                        </div>
+                                        <span class="font-bold">အပြည့်အစုံ</span>
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="presentation" value="အနှစ်ချုပ်" class="hidden peer">
+                                <div class="border rounded-lg p-5 hover:bg-gray-50 peer-checked:bg-yellow-50 peer-checked:border-yellow-400 transition">
+                                    <div class="flex items-center gap-3 mb-1">
+                                        <div class="w-4 h-4 rounded-full border-2 border-gray-300 peer-checked:border-yellow-500 flex items-center justify-center">
+                                            <div class="w-2 h-2 rounded-full bg-yellow-500 opacity-0 peer-checked:opacity-100"></div>
+                                        </div>
+                                        <span class="font-bold">အနှစ်ချုပ်</span>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 mb-4">
+                        <button type="button" onclick="generateStory()" id="generateBtn" class="w-full py-4 px-6 bg-[#facc15] hover:bg-[#eab308] rounded-lg font-bold text-gray-900 transition shadow-sm flex items-center justify-center gap-2">
+                            ခေါင်းစဉ် ၅ မျိုး ထုတ်မယ် ✦
+                        </button>
+                    </div>
+
                 </div>
             </div>
 
             <div class="lg:col-span-4">
                 <div class="glass-dark rounded-xl p-6 sticky top-6">
-                    <span class="text-yellow-500 font-bold text-sm block mb-4">PRODUCTION BRIEF</span>
+                    <div class="flex justify-between items-center mb-6">
+                        <span class="text-xs text-gray-400 font-bold tracking-widest uppercase">Production Brief</span>
+                        <span class="text-yellow-500 font-bold text-sm">AVT / 01</span>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-white mb-2">သင့်နောက်ထပ် ဇာတ်လမ်း</h3>
+                    
+                    <div class="space-y-4 text-sm mb-8 border-b border-gray-700 pb-8 mt-6">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">အမျိုးအစား</span>
+                            <span class="text-white font-medium" id="displayGenre">ဟာသ</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">ဇာတ်လမ်း</span>
+                            <span class="text-white font-medium" id="displayPresentation">အပြည့်အစုံ</span>
+                        </div>
+                    </div>
+
                     <div id="aiOutputArea">
                         <h4 class="text-yellow-400 font-bold mb-3">AI ရလဒ်များ:</h4>
-                        <div id="loading" class="hidden text-gray-400 text-sm">AI စဉ်းစားနေပါသည်... ခဏစောင့်ပါ။</div>
+                        <div id="loading" class="hidden text-gray-400 animate-pulse text-sm">AI စဉ်းစားနေပါသည်... ခဏစောင့်ပါ။</div>
                         <div id="output" class="text-gray-200 text-sm whitespace-pre-wrap leading-relaxed">ဇာတ်လမ်းအကျဉ်းရေးပြီး "ခေါင်းစဉ် ၅ မျိုး ထုတ်မယ်" ကို နှိပ်ပါ။</div>
                     </div>
                 </div>
@@ -59,37 +238,57 @@
     </div>
 
     <script>
-        // Catch any hidden errors on Tablet
+        // System Error Catcher
         window.onerror = function(msg, url, line) {
-            alert("စနစ်ချို့ယွင်းချက် (System Error): " + msg + " (Line: " + line + ")");
+            alert("စနစ်ချို့ယွင်းချက်: " + msg + " (Line: " + line + ")");
         };
 
-        async function generateStory() {
-            const btn = document.getElementById('generateBtn');
-            const output = document.getElementById('output');
-            const loading = document.getElementById('loading');
+        // Update Sidebar Dynamically
+        document.querySelectorAll('input[name="genre"]').forEach(radio => {
+            radio.addEventListener('change', (e) => { document.getElementById('displayGenre').innerText = e.target.value; });
+        });
+        document.querySelectorAll('input[name="presentation"]').forEach(radio => {
+            radio.addEventListener('change', (e) => { document.getElementById('displayPresentation').innerText = e.target.value; });
+        });
 
+        // Generate Function
+        async function generateStory() {
             try {
                 const apiKey = document.getElementById('apiKey').value.trim();
                 const brief = document.getElementById('storyBrief').value.trim();
                 
+                // Get selected options safely
+                const genreEle = document.querySelector('input[name="genre"]:checked');
+                const genre = genreEle ? genreEle.value : "ဟာသ";
+                
+                const titleStyleEle = document.querySelector('input[name="titleStyle"]:checked');
+                const titleStyle = titleStyleEle ? titleStyleEle.value : "ဆွဲဆောင်မှုရှိသော";
+                
+                const presentationEle = document.querySelector('input[name="presentation"]:checked');
+                const presentation = presentationEle ? presentationEle.value : "အပြည့်အစုံ";
+
                 if (!apiKey) {
-                    alert("ကျေးဇူးပြု၍ API Key အရင်ထည့်ပါ။");
+                    alert("ကျေးဇူးပြု၍ Google AI Studio မှ API Key ကို အပေါ်ဆုံးအကွက်တွင် ထည့်ပါ။");
                     return;
                 }
                 if (!brief) {
-                    alert("ကျေးဇူးပြု၍ ဇာတ်လမ်းအကျဉ်း ရေးပါ။");
+                    alert("ကျေးဇူးပြု၍ သင့်ဇာတ်လမ်းအကျဉ်းကို ထည့်ပါ။");
                     return;
                 }
 
-                // Update UI to show loading
-                btn.disabled = true;
-                btn.innerText = 'ထုတ်လုပ်နေသည်... ခဏစောင့်ပါ';
+                // UI Changes
+                const loading = document.getElementById('loading');
+                const output = document.getElementById('output');
+                const btn = document.getElementById('generateBtn');
+                
                 loading.classList.remove('hidden');
                 output.innerText = "";
-                output.classList.remove("text-red-400");
+                btn.disabled = true;
+                btn.innerText = 'ထုတ်လုပ်နေသည်...';
 
-                const prompt = `အောက်ပါ ဇာတ်လမ်းအကျဉ်းကို အခြေခံပြီး ဇာတ်လမ်းခေါင်းစဉ် ၅ မျိုးကို မြန်မာဘာသာဖြင့် ဖန်တီးပေးပါ။ \nဇာတ်လမ်းအကျဉ်း: ${brief}\n\nခေါင်းစဉ် ၅ ခုကို (၁) (၂) စသဖြင့် အစဉ်လိုက်ရေးပေးပါ။`;
+                // API Call
+                const prompt = `အောက်ပါ အချက်အလက်များကို အခြေခံပြီး ဇာတ်လမ်းခေါင်းစဉ် ၅ မျိုးကို မြန်မာဘာသာဖြင့် ဖန်တီးပေးပါ။ \nအမျိုးအစား: ${genre}\nခေါင်းစဉ်ပုံစံ: ${titleStyle}\nတင်ပြမှုပုံစံ: ${presentation}\nဇာတ်လမ်းအကျဉ်း: ${brief}\n\nခေါင်းစဉ် ၅ ခုကို (၁) (၂) စသဖြင့် အစဉ်လိုက်ရေးပေးပါ။`;
+
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
@@ -101,21 +300,29 @@
                 });
 
                 if (!response.ok) {
-                    const errData = await response.json();
-                    throw new Error(errData.error?.message || "API Key မှားနေသည် (သို့) Limit ပြည့်သွားပါသည်။");
+                    const errorData = await response.json();
+                    throw new Error(errorData.error?.message || "API Key မှားနေသည် (သို့) Limit ပြည့်သွားပါသည်။");
                 }
 
                 const data = await response.json();
-                output.innerText = data.candidates[0].content.parts[0].text;
+                
+                if (data.candidates && data.candidates.length > 0) {
+                    const aiResponse = data.candidates[0].content.parts[0].text;
+                    output.innerText = aiResponse;
+                    output.classList.remove("text-red-400");
+                } else {
+                    throw new Error("AI မှ အဖြေပြန်မပေးပါ။");
+                }
 
             } catch (error) {
-                alert("Error ဖြစ်သွားပါသည်: " + error.message);
-                output.innerText = "Error: " + error.message;
-                output.classList.add("text-red-400");
+                alert("Error: " + error.message);
+                document.getElementById('output').innerText = "Error: " + error.message;
+                document.getElementById('output').classList.add("text-red-400");
             } finally {
+                document.getElementById('loading').classList.add('hidden');
+                const btn = document.getElementById('generateBtn');
                 btn.disabled = false;
                 btn.innerText = 'ခေါင်းစဉ် ၅ မျိုး ထုတ်မယ် ✦';
-                loading.classList.add('hidden');
             }
         }
     </script>
