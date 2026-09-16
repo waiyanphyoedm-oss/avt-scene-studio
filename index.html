@@ -286,10 +286,10 @@
                 btn.disabled = true;
                 btn.innerText = 'ထုတ်လုပ်နေသည်...';
 
-                // API Call
+                // API Call (Changed model to gemini-pro)
                 const prompt = `အောက်ပါ အချက်အလက်များကို အခြေခံပြီး ဇာတ်လမ်းခေါင်းစဉ် ၅ မျိုးကို မြန်မာဘာသာဖြင့် ဖန်တီးပေးပါ။ \nအမျိုးအစား: ${genre}\nခေါင်းစဉ်ပုံစံ: ${titleStyle}\nတင်ပြမှုပုံစံ: ${presentation}\nဇာတ်လမ်းအကျဉ်း: ${brief}\n\nခေါင်းစဉ် ၅ ခုကို (၁) (၂) စသဖြင့် အစဉ်လိုက်ရေးပေးပါ။`;
 
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
                     method: 'POST',
@@ -301,7 +301,7 @@
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.error?.message || "API Key မှားနေသည် (သို့) Limit ပြည့်သွားပါသည်။");
+        throw new Error(errorData.error?.message || "API Key မှားနေသည် (သို့) Limit ပြည့်သွားပါသည်။");
                 }
 
                 const data = await response.json();
