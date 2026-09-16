@@ -138,6 +138,13 @@
                     </div>
 
                     <div class="mb-8">
+                        <div id="aiBriefSection" class="hidden mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                            <label for="storyIdea" class="block font-bold text-gray-800 mb-2">AI ကို ဇာတ်လမ်းအကြမ်းဖျင်း ပြောပြပါ</label>
+                            <input type="text" id="storyIdea" placeholder="ဘာအကြောင်း ရေးခိုင်းမလဲ အကြမ်းဖျင်းရေးပါ..." class="w-full border border-gray-300 rounded-lg p-3 mb-3 focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 outline-none transition">
+                            <button type="button" onclick="generateStoryBrief(event)" id="generateBriefBtn" class="w-full py-3 px-5 bg-[#facc15] hover:bg-[#eab308] rounded-lg font-bold text-gray-900 transition shadow-sm">
+                                AI ဖြင့် ဇာတ်လမ်းအကျဉ်း ရေးမည် ✨
+                            </button>
+                        </div>
                         <label class="block font-bold text-gray-800 mb-2">သင့်ဇာတ်လမ်းအကျဉ်း <span class="text-red-500">*</span></label>
                         <textarea id="storyBrief" rows="5" placeholder="ဘယ်သူ့အကြောင်းလဲ၊ ဘာအခက်အခဲ ကြုံရမလဲ၊ ဘယ်လို အဆုံးသတ်မလဲ... သင့်ဇာတ်လမ်းအကျဉ်းကို အရင်ရေးပါ။" class="w-full border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-yellow-400 outline-none"></textarea>
                     </div>
@@ -199,7 +206,7 @@
                     </div>
 
                     <div class="flex gap-4 mb-4">
-                        <button type="button" onclick="generateStory()" id="generateBtn" class="w-full py-4 px-6 bg-[#facc15] hover:bg-[#eab308] rounded-lg font-bold text-gray-900 transition shadow-sm flex items-center justify-center gap-2">
+                        <button type="button" onclick="generateStory(event)" id="generateBtn" class="w-full py-4 px-6 bg-[#facc15] hover:bg-[#eab308] rounded-lg font-bold text-gray-900 transition shadow-sm flex items-center justify-center gap-2">
                             ခေါင်းစဉ် ၅ မျိုး ထုတ်မယ် ✦
                         </button>
                     </div>
@@ -250,9 +257,79 @@
         document.querySelectorAll('input[name="presentation"]').forEach(radio => {
             radio.addEventListener('change', (e) => { document.getElementById('displayPresentation').innerText = e.target.value; });
         });
+        document.querySelectorAll('input[name="whoWrites"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                document.getElementById('aiBriefSection').classList.toggle('hidden', e.target.value !== 'AI');
+            });
+        });
+
+        // ရှင်းလင်းပြီး တိုက်ရိုက်ခေါ်တဲ့ Fetch Function အသစ် (gemini-1.5-flash)
+        async function fetchAI(apiKey, prompt) {
+            const key = encodeURIComponent(apiKey);
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }]
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.error?.message || `API Request Failed (${response.status}). သင့် API Key မှန်၊ မမှန် ပြန်စစ်ပါ။`);
+            }
+
+            const data = await response.json();
+            const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            
+            if (!text) {
+                throw new Error("AI ဆီမှ အဖြေမရပါ။ ပြန်ကြိုးစားကြည့်ပါ။");
+            }
+            
+            return text;
+        }
+
+        async function generateStoryBrief(event) {
+            if (event) {
+                event.preventDefault();
+            }
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const idea = document.getElementById('storyIdea').value.trim();
+            const genreEle = document.querySelector('input[name="genre"]:checked');
+            const genre = genreEle ? genreEle.value : "ဟာသ";
+
+            if (!apiKey) {
+                alert("ကျေးဇူးပြု၍ Google AI Studio မှ API Key ကို အပေါ်ဆုံးအကွက်တွင် ထည့်ပါ။");
+                return;
+            }
+            if (!idea) {
+                alert("ကျေးဇူးပြု၍ ရေးခိုင်းလိုသော အကြောင်းအရာကို အကြမ်းဖျင်း ထည့်ပါ။");
+                return;
+            }
+
+            const btn = document.getElementById('generateBriefBtn');
+            btn.disabled = true;
+            btn.innerText = 'ရေးနေသည်...';
+
+            try {
+                const prompt = `အောက်ပါ စိတ်ကူးနှင့် အမျိုးအစားကို အခြေခံပြီး ပြည့်စုံသော ဇာတ်လမ်းအကျဉ်းတစ်ပုဒ်ကို မြန်မာဘာသာဖြင့် ရေးပေးပါ။\nအမျိုးအစား: ${genre}\nအကြမ်းဖျင်းစိတ်ကူး: ${idea}\n\nဇာတ်ကောင်၊ အဓိကအခက်အခဲနှင့် အဆုံးသတ်တို့ ပါဝင်သော ရှင်းလင်းသည့် ဇာတ်လမ်းအကျဉ်းကိုသာ ရေးပါ။`;
+                document.getElementById('storyBrief').value = await fetchAI(apiKey, prompt);
+            } catch (error) {
+                alert("Error: " + error.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'AI ဖြင့် ဇာတ်လမ်းအကျဉ်း ရေးမည် ✨';
+            }
+        }
 
         // Generate Function
-        async function generateStory() {
+        async function generateStory(event) {
+            if (event) {
+                event.preventDefault();
+            }
+
             try {
                 const apiKey = document.getElementById('apiKey').value.trim();
                 const brief = document.getElementById('storyBrief').value.trim();
@@ -286,33 +363,10 @@
                 btn.disabled = true;
                 btn.innerText = 'ထုတ်လုပ်နေသည်...';
 
-                // API Call (Changed model to gemini-pro)
                 const prompt = `အောက်ပါ အချက်အလက်များကို အခြေခံပြီး ဇာတ်လမ်းခေါင်းစဉ် ၅ မျိုးကို မြန်မာဘာသာဖြင့် ဖန်တီးပေးပါ။ \nအမျိုးအစား: ${genre}\nခေါင်းစဉ်ပုံစံ: ${titleStyle}\nတင်ပြမှုပုံစံ: ${presentation}\nဇာတ်လမ်းအကျဉ်း: ${brief}\n\nခေါင်းစဉ် ၅ ခုကို (၁) (၂) စသဖြင့် အစဉ်လိုက်ရေးပေးပါ။`;
-
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: prompt }] }]
-                    })
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-        throw new Error(errorData.error?.message || "API Key မှားနေသည် (သို့) Limit ပြည့်သွားပါသည်။");
-                }
-
-                const data = await response.json();
-                
-                if (data.candidates && data.candidates.length > 0) {
-                    const aiResponse = data.candidates[0].content.parts[0].text;
-                    output.innerText = aiResponse;
-                    output.classList.remove("text-red-400");
-                } else {
-                    throw new Error("AI မှ အဖြေပြန်မပေးပါ။");
-                }
+                const aiResponse = await fetchAI(apiKey, prompt);
+                output.innerText = aiResponse;
+                output.classList.remove("text-red-400");
 
             } catch (error) {
                 alert("Error: " + error.message);
@@ -328,3 +382,6 @@
     </script>
 </body>
 </html>
+
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const idea = do
